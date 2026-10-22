@@ -4,7 +4,8 @@ export const experiences: Experience[] = [
   {
     company: 'Nexora Systems',
     role: 'Software Engineering Intern',
-    date: 'Jun 2024 — Present',
+    date: 'Jun 2024 - Present',
+    current: true,
     bullets: [
       { id: 'rest-services', text: 'Built and maintained REST services used by internal operations teams.' },
       { id: 'product-qa', text: 'Partnered with product and QA to ship reliable, measurable improvements.' },
@@ -14,7 +15,7 @@ export const experiences: Experience[] = [
   {
     company: 'Independent / Academic',
     role: 'Backend Developer',
-    date: 'Jan 2022 — May 2024',
+    date: 'Jan 2022 - May 2024',
     bullets: [
       { id: 'data-models', text: 'Designed relational data models for student and community projects.' },
       { id: 'milestones', text: 'Translated ambiguous requirements into small, testable milestones.' },
@@ -28,7 +29,7 @@ export const education: EducationItem[] = [
     institution: 'Instituto Tecnológico de Santo Domingo',
     degree: 'Bachelor of Science',
     field: 'Computer Systems Engineering',
-    years: '2021 — 2026'
+    years: '2021 - 2026'
   },
   {
     institution: 'Open Source & Independent Study',

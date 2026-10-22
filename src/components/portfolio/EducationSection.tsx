@@ -1,31 +1,30 @@
-import { GraduationCap } from 'lucide-react';
+import { GraduationCap } from '@phosphor-icons/react';
 import { education } from '@/data/experience';
+import { Bezel } from './Bezel';
 import { SectionHeading } from './SectionHeading';
-import type { ThemeTokens } from '@/types/portfolio';
+import { Reveal } from './Reveal';
 
-export const EducationSection = ({ dark, muted, accent, surface }: ThemeTokens) => (
-  <section id="education" className="mx-auto max-w-7xl scroll-mt-24 px-6 py-28 lg:px-10">
-    <SectionHeading eyebrow="05 / foundation" prefix="//" title="Education" accentClassName={accent} />
-    <div className="mt-12 grid max-w-4xl gap-4 md:grid-cols-2">
-      {education.map((item, educationIndex) => (
-        <article
-          key={item.institution}
-          className={`border-l-2 p-6 ${dark ? 'border-[#00D4C8]' : 'border-[#009E96]'} ${surface}`}
-          data-animate="card-up"
-          style={{ transitionDelay: `${educationIndex * 120}ms` }}
-        >
-          <GraduationCap className={accent} size={21} />
-          <h3 className="font-heading mt-5 text-xl font-bold tracking-[0.01em]">
-            <span>{item.degree}</span>
-          </h3>
-          <p className={`mt-2 ${muted}`}>{item.field}</p>
-          <p className={`mt-6 text-xs font-medium ${accent}`}>
-            <span>{item.institution}</span>
-            <span> · </span>
-            <span>{item.years}</span>
-          </p>
-        </article>
-      ))}
+export const EducationSection = () => (
+  <section id="education" className="scroll-mt-20 px-5 py-28 lg:px-10 lg:py-40">
+    <div className="mx-auto max-w-7xl">
+      <SectionHeading prefix="//" title="Education" />
+
+      <div className="mt-14 grid gap-4 md:grid-cols-2 lg:mt-20">
+        {education.map((item, index) => (
+          <Reveal key={item.institution} delay={index * 0.1}>
+            <Bezel hover spotlight className="h-full" coreClassName="flex h-full flex-col p-7 sm:p-9">
+              <span className="grid size-12 place-items-center rounded-full border border-line bg-fg/[0.04] text-accent">
+                <GraduationCap size={22} />
+              </span>
+              <h3 className="mt-7 text-2xl font-bold tracking-[-0.03em] text-fg sm:text-3xl">{item.degree}</h3>
+              <p className="mt-3 text-muted">{item.field}</p>
+              <p className="mt-auto pt-8 text-xs font-medium text-accent">
+                {item.institution} · {item.years}
+              </p>
+            </Bezel>
+          </Reveal>
+        ))}
+      </div>
     </div>
   </section>
 );
