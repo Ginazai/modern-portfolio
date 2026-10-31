@@ -1,13 +1,8 @@
-import { useState, type CSSProperties } from 'react';
-import { useThemeTokens } from '@/hooks/useThemeTokens';
-import { useTypewriter } from '@/hooks/useTypewriter';
-import { useCursorParallax } from '@/hooks/useCursorParallax';
-import { useTiltEffect } from '@/hooks/useTiltEffect';
-import { useDataAnimateReveal } from '@/hooks/useScrollReveal';
+import { useActiveSection } from '@/hooks/useActiveSection';
 import { useDynamicTitle } from '@/hooks/useDynamicTitle';
-import { profile } from '@/data/profile';
-import { projects } from '@/data/projects';
 import { Navbar } from '@/components/portfolio/Navbar';
+import { ScrollProgress } from '@/components/portfolio/ScrollProgress';
+import { CursorGlow } from '@/components/portfolio/CursorGlow';
 import { HeroSection } from '@/components/portfolio/HeroSection';
 import { AboutSection } from '@/components/portfolio/AboutSection';
 import { SkillsSection } from '@/components/portfolio/SkillsSection';
@@ -18,41 +13,32 @@ import { ContactSection } from '@/components/portfolio/ContactSection';
 import { Footer } from '@/components/portfolio/Footer';
 
 export const RafaelPortfolio = () => {
-  const theme = useThemeTokens(true);
-  const [menuOpen, setMenuOpen] = useState(false);
-  const [category, setCategory] = useState('All');
-  const typedText = useTypewriter(profile.tagline);
-  const { cursor, heroShift } = useCursorParallax();
-  const { handleTilt, resetTilt } = useTiltEffect();
-
-  useDataAnimateReveal(category);
-  useDynamicTitle();
-
-  const filteredProjects = category === 'All' ? projects : projects.filter(project => project.category === category);
+  const activeId = useActiveSection();
+  useDynamicTitle(activeId);
 
   return (
-    <main
-      className={`relative min-h-screen overflow-hidden font-body transition-colors duration-500 ${theme.dark ? 'bg-[#0A0A0A]' : 'bg-[#F8F8F8]'} ${theme.text}`}
-      style={{ '--cursor-x': `${cursor.x}px`, '--cursor-y': `${cursor.y}px`, '--accent-color': theme.accentColor } as CSSProperties}
-    >
-      <div className={theme.dark ? 'cursor-glow' : 'hidden'} aria-hidden="true" />
-
-      <Navbar {...theme} menuOpen={menuOpen} onToggleMenu={() => setMenuOpen(!menuOpen)} onToggleDark={theme.toggleDark} />
-      <HeroSection {...theme} typedText={typedText} heroShift={heroShift} />
-      <AboutSection {...theme} />
-      <SkillsSection {...theme} />
-      <ProjectsSection
-        {...theme}
-        category={category}
-        onCategoryChange={setCategory}
-        filteredProjects={filteredProjects}
-        onTilt={handleTilt}
-        onResetTilt={resetTilt}
-      />
-      <ExperienceSection {...theme} />
-      <EducationSection {...theme} />
-      <ContactSection {...theme} />
-      <Footer {...theme} />
-    </main>
+    <>
+      <a
+        href="#main"
+        className="fixed left-4 top-4 -translate-y-24 rounded-full bg-accent px-5 py-2.5 text-sm font-semibold text-accent-ink transition-transform focus:translate-y-0"
+        style={{ zIndex: 'var(--z-progress)' }}
+      >
+        Skip to content
+      </a>
+      <div className="grain" aria-hidden="true" />
+      <CursorGlow />
+      <ScrollProgress />
+      <Navbar activeId={activeId} />
+      <main id="main">
+        <HeroSection />
+        <AboutSection />
+        <SkillsSection />
+        <ProjectsSection />
+        <ExperienceSection />
+        <EducationSection />
+        <ContactSection />
+      </main>
+      <Footer />
+    </>
   );
 };

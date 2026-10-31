@@ -1,20 +1,12 @@
-import { Theme } from './settings/types';
+import { ThemeProvider } from './context/ThemeProvider';
 import { RafaelPortfolio } from './components/generated/RafaelPortfolio';
 
-let theme: Theme = 'light';
-
 function App() {
-  function setTheme(nextTheme: Theme) {
-    if (nextTheme === 'dark') {
-      document.documentElement.classList.add('dark');
-    } else {
-      document.documentElement.classList.remove('dark');
-    }
-  }
-
-  setTheme(theme);
-
-  return <RafaelPortfolio />;
+  return (
+    <ThemeProvider>
+      <RafaelPortfolio />
+    </ThemeProvider>
+  );
 }
 
 export default App;

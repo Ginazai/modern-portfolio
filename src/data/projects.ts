@@ -1,4 +1,4 @@
-import type { Project } from '@/types/portfolio';
+import type { CoverVariant, Project } from '@/types/portfolio';
 
 export const projects: Project[] = [
   {
@@ -49,8 +49,9 @@ export const categoryItems = [
   { id: 'fullstack', label: 'Fullstack' }
 ];
 
-export const projectCardGradient: Record<string, string> = {
-  pulse: 'bg-[linear-gradient(135deg,#113d3b,#0b1919)]',
-  atlas: 'bg-[linear-gradient(135deg,#24233d,#121221)]',
-  signal: 'bg-[linear-gradient(135deg,#17303d,#101618)]'
+/** Which generative cover each project uses (see GenerativeCover). */
+export const coverVariants: Record<string, CoverVariant> = {
+  pulse: 'pipeline',
+  atlas: 'flow',
+  signal: 'waves'
 };
