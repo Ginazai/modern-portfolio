@@ -43,7 +43,7 @@ export const HeroSection = () => {
       // Prefer the CV in the active language; fall back to the default one until the translated file is added.
       // Only accept a real PDF: a missing file can come back as the site's own HTML page (SPA fallback).
       let response: Response | undefined;
-      for (const candidate of [profile.resumeUrl, '/resume.pdf']) {
+      for (const candidate of [profile.resumeUrl, `${import.meta.env.BASE_URL}resume.pdf`]) {
         const attempt = await fetch(candidate, { cache: 'no-store' });
         if (attempt.ok && (attempt.headers.get('content-type') ?? '').includes('pdf')) {
           response = attempt;
