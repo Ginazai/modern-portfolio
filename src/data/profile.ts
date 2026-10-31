@@ -2,18 +2,20 @@ export const profile = {
   name: 'Rafael',
   lastName: 'Caballero.',
   initials: 'RC',
-  tagline: 'Computer Systems Engineering Student | Software Developer | Driven by Innovation and Problem-Solving',
-  intro: 'Building robust systems. Writing clean code. Solving real problems.',
-  status: 'available',
+  tagline: 'AI Engineer | Business Systems, Automation & Applied AI',
+  intro: 'Bridging business needs, software engineering, and AI-assisted automation.',
+  role: 'AI Engineer | Business Systems & Automation',
+  status: 'Currently working',
   aboutParagraphs: [
-    'I’m a Computer Systems Engineering student who enjoys understanding what happens beneath the interface. My favorite work lives at the intersection of backend systems, thoughtful APIs, and the people who rely on them.',
-    'I care about clean architecture because good software should be easy to reason about, change, and trust. I’m always looking for the next real problem to untangle with a calm, curious approach.'
+    'I’m an AI Engineer focused on business-facing software, workflow automation, and systems integration. I work across requirements discovery, technical implementation, and delivery, turning operational needs into maintainable tools and connected workflows.',
+    'My work spans full-stack applications, API integrations, ETL and reporting, and LLM-assisted processes. I value clear architecture, measurable improvements, reliable delivery, and close collaboration with the people who use the systems.'
   ],
-  contactIntro: "Have a role in mind or just want to connect? I'd love to hear from you.",
+  contactIntro: "Have a role in mind or want to discuss a project? I'd be glad to connect.",
   social: {
-    github: 'https://github.com',
-    linkedin: 'https://linkedin.com',
-    email: 'rafael@example.com'
+    github: 'https://github.com/Ginazai',
+    linkedin: 'https://www.linkedin.com/in/rafaeld-caballero/',
+    email: 'rafaeldc1300@gmail.com'
   },
-  footerNote: '© 2025 Rafael Caballero · Built with React & Tailwind CSS'
+  resumeUrl: '/resume.pdf',
+  resumeFilename: 'Rafael-Caballero-Resume.pdf'
 };

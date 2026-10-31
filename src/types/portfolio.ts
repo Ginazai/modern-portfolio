@@ -14,6 +14,8 @@ export interface ProjectTech {
   label: string;
 }
 
+export type CoverVariant = 'pipeline' | 'flow' | 'waves';
+
 export interface Project {
   title: string;
   description: string;
@@ -21,6 +23,7 @@ export interface Project {
   category: string;
   githubUrl: string;
   liveUrl: string;
+  /** Key into `coverVariants`, selects the generative cover art. */
   imageUrl: string;
 }
 
@@ -33,6 +36,7 @@ export interface Experience {
   company: string;
   role: string;
   date: string;
+  current?: boolean;
   bullets: ExperienceBullet[];
 }
 
@@ -57,23 +61,4 @@ export interface StatItem {
   id: string;
   value: string;
   label: string;
-}
-
-export interface SectionHeadingProps {
-  eyebrow: string;
-  title: string;
-  prefix: string;
-  accentClassName: string;
-  className?: string;
-}
-
-export interface ThemeTokens {
-  dark: boolean;
-  text: string;
-  muted: string;
-  surface: string;
-  border: string;
-  accent: string;
-  accentBg: string;
-  accentColor: string;
 }
