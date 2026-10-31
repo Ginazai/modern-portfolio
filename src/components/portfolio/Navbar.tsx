@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { AnimatePresence, motion } from 'motion/react';
-import { navItems } from '@/data/navigation';
-import { profile } from '@/data/profile';
+import { useLang } from '@/context/lang-context';
+import { LangToggle } from './LangToggle';
 import { ThemeToggle } from './ThemeToggle';
 
 interface NavbarProps {
@@ -9,6 +9,8 @@ interface NavbarProps {
 }
 
 export const Navbar = ({ activeId }: NavbarProps) => {
+  const { c, t } = useLang();
+  const { navItems, profile } = c;
   const [open, setOpen] = useState(false);
 
   // Lock page scroll while the full-screen menu is open, and close it on Escape.
@@ -29,9 +31,9 @@ export const Navbar = ({ activeId }: NavbarProps) => {
       <header className="pointer-events-none fixed inset-x-3 top-3 flex justify-center sm:top-5" style={{ zIndex: 'var(--z-nav)' }}>
         <nav
           className="glass pointer-events-auto flex h-14 w-full items-center justify-between rounded-full border border-line pl-6 pr-2 lg:w-max lg:gap-10"
-          aria-label="Main navigation"
+          aria-label={t.mainNav}
         >
-          <a href="#top" onClick={() => setOpen(false)} className="text-lg font-bold tracking-tight text-accent" aria-label={`${profile.name} ${profile.lastName.replace('.', '')}, back to top`}>
+          <a href="#top" onClick={() => setOpen(false)} className="text-lg font-bold tracking-tight text-accent" aria-label={t.logoLabel(`${profile.name} ${profile.lastName.replace('.', '')}`)}>
             <span>R</span>
             <span className="opacity-50">/</span>
             <span>C</span>
@@ -62,13 +64,14 @@ export const Navbar = ({ activeId }: NavbarProps) => {
           </ul>
 
           <div className="flex items-center gap-2">
+            <LangToggle />
             <ThemeToggle />
             <button
               type="button"
               onClick={() => setOpen(value => !value)}
               aria-expanded={open}
               aria-controls="mobile-menu"
-              aria-label={open ? 'Close menu' : 'Open menu'}
+              aria-label={open ? t.closeMenu : t.openMenu}
               className="grid size-10 place-items-center rounded-full border border-line text-fg transition duration-500 ease-out-expo hover:border-line-strong active:scale-[0.94] lg:hidden"
             >
               <span className="relative block h-[11px] w-5" aria-hidden="true">

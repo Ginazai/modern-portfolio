@@ -1,4 +1,4 @@
-import type { ReactNode } from 'react';
+import type { MouseEvent, ReactNode } from 'react';
 import { cn } from '@/lib/utils';
 
 interface PillButtonProps {
@@ -8,7 +8,7 @@ interface PillButtonProps {
   href?: string;
   download?: string;
   type?: 'button' | 'submit';
-  onClick?: () => void;
+  onClick?: (event: MouseEvent<HTMLElement>) => void;
 }
 
 /** Pill CTA with the trailing icon nested in its own circle. The circle shifts diagonally on hover. */
@@ -33,7 +33,7 @@ export const PillButton = ({ children, icon, variant = 'primary', href, download
 
   if (href) {
     return (
-      <a href={href} download={download} className={cn(base, look)}>
+      <a href={href} download={download} onClick={onClick} className={cn(base, look)}>
         {content}
       </a>
     );

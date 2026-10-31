@@ -1,10 +1,12 @@
-import { profile } from '@/data/profile';
-import { stats } from '@/data/experience';
+import { useLang } from '@/context/lang-context';
 import { Bezel } from './Bezel';
 import { SectionHeading } from './SectionHeading';
 import { Reveal } from './Reveal';
 
-export const AboutSection = () => (
+export const AboutSection = () => {
+  const { c, t } = useLang();
+  const { profile, stats } = c;
+  return (
   <section id="about" className="scroll-mt-20 px-5 py-28 lg:px-10 lg:py-40">
     <div className="mx-auto grid max-w-7xl gap-12 lg:grid-cols-[220px_1fr] lg:gap-20">
       <Reveal className="flex items-start justify-center lg:justify-start">
@@ -16,7 +18,7 @@ export const AboutSection = () => (
       </Reveal>
 
       <div>
-        <SectionHeading prefix=">" title="About Me" />
+        <SectionHeading prefix=">" title={t.aboutTitle} />
 
         <Reveal delay={0.05} className="mt-10">
           <p className="max-w-3xl text-[clamp(1.375rem,2.3vw,1.75rem)] font-medium leading-[1.3] tracking-[-0.02em] text-fg">{profile.aboutParagraphs[0]}</p>
@@ -39,4 +41,5 @@ export const AboutSection = () => (
       </div>
     </div>
   </section>
-);
+  );
+};

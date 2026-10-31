@@ -1,5 +1,6 @@
 import { ArrowUpRight, GithubLogo } from '@phosphor-icons/react';
 import { motion } from 'motion/react';
+import { useLang } from '@/context/lang-context';
 import { coverVariants } from '@/data/projects';
 import { Bezel } from './Bezel';
 import { GenerativeCover } from './GenerativeCover';
@@ -15,6 +16,7 @@ interface ProjectCardProps {
 }
 
 export const ProjectCard = ({ project, variant, className = '', coverClassName = '', seed }: ProjectCardProps) => {
+  const { t } = useLang();
   const feature = variant === 'feature';
 
   return (
@@ -28,27 +30,31 @@ export const ProjectCard = ({ project, variant, className = '', coverClassName =
     >
       <TiltCard className="flex-1">
         <Bezel hover spotlight className="h-full" coreClassName="flex h-full flex-col">
-          <div className={`relative border-b border-line ${feature ? `min-h-[260px] flex-1 lg:min-h-[320px] ${coverClassName}` : 'h-36'}`}>
+          <div className={`relative border-b border-line ${feature ? `min-h-[260px] flex-1 lg:min-h-[320px] ${coverClassName}` : 'h-44'}`}>
             <GenerativeCover variant={coverVariants[project.imageUrl] ?? 'flow'} seed={seed} />
-            <span className="pointer-events-none absolute bottom-3 left-5 select-none text-5xl font-bold tracking-[-0.03em] text-fg/[0.07]">
+            <span aria-hidden="true" className="pointer-events-none absolute bottom-3 left-5 right-5 select-none truncate text-5xl font-bold tracking-[-0.03em] text-fg/[0.07]">
               {project.imageUrl.toUpperCase()}
             </span>
           </div>
 
           <div className={feature ? 'p-6 sm:p-8' : 'p-6'}>
             <div className="flex items-center justify-between gap-4">
-              <span className="text-[10px] font-medium uppercase tracking-[0.1em] text-accent">{project.category}</span>
+              <span className="text-[10px] font-medium uppercase tracking-[0.1em] text-accent">{t.category[project.category] ?? project.category}</span>
               <div className="flex items-center gap-1">
-                <a href={project.githubUrl} aria-label={`${project.title} on GitHub`} className="grid size-9 place-items-center rounded-full text-muted transition duration-500 hover:bg-fg/[0.06] hover:text-accent">
-                  <GithubLogo size={18} />
-                </a>
-                <a href={project.liveUrl} aria-label={`${project.title} live site`} className="grid size-9 place-items-center rounded-full text-muted transition duration-500 hover:bg-fg/[0.06] hover:text-accent group-hover:-translate-y-0.5 group-hover:translate-x-0.5">
-                  <ArrowUpRight size={18} />
-                </a>
+                {project.githubUrl && (
+                  <a href={project.githubUrl} target="_blank" rel="noopener noreferrer" aria-label={t.onGithub(project.title)} className="grid size-9 place-items-center rounded-full text-muted transition duration-500 hover:bg-fg/[0.06] hover:text-accent">
+                    <GithubLogo size={18} />
+                  </a>
+                )}
+                {project.liveUrl && (
+                  <a href={project.liveUrl} target="_blank" rel="noopener noreferrer" aria-label={t.liveSite(project.title)} className="grid size-9 place-items-center rounded-full text-muted transition duration-500 hover:bg-fg/[0.06] hover:text-accent group-hover:-translate-y-0.5 group-hover:translate-x-0.5">
+                    <ArrowUpRight size={18} />
+                  </a>
+                )}
               </div>
             </div>
 
-            <h3 className={`mt-3 font-bold tracking-[-0.03em] text-fg ${feature ? 'text-3xl sm:text-4xl' : 'text-2xl'}`}>{project.title}</h3>
+            <h3 className={`mt-3 text-balance font-bold tracking-[-0.03em] text-fg ${feature ? 'text-3xl sm:text-4xl' : 'text-2xl'}`}>{project.title}</h3>
             <p className={`mt-3 max-w-[52ch] leading-relaxed text-muted ${feature ? 'text-base sm:text-lg' : 'text-[0.9375rem]'}`}>{project.description}</p>
 
             <ul className="mt-6 flex flex-wrap gap-2">

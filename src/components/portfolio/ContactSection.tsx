@@ -1,6 +1,7 @@
 import { useRef, useState, type FormEvent } from 'react';
 import { EnvelopeSimple, GithubLogo, LinkedinLogo, PaperPlaneTilt } from '@phosphor-icons/react';
-import { profile } from '@/data/profile';
+import { useLang } from '@/context/lang-context';
+import type { Ui } from '@/i18n/ui';
 import { Bezel } from './Bezel';
 import { PillButton } from './PillButton';
 import { SectionHeading } from './SectionHeading';
@@ -12,20 +13,14 @@ type Errors = Partial<Record<FieldName, string>>;
 
 const emptyValues: Values = { name: '', email: '', message: '' };
 
-const validate = (values: Values): Errors => {
+const validate = (values: Values, t: Ui): Errors => {
   const errors: Errors = {};
-  if (!values.name.trim()) errors.name = 'Please tell me your name.';
-  if (!values.email.trim()) errors.email = 'Please add an email address so I can reply.';
-  else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(values.email)) errors.email = 'That email address does not look right.';
-  if (!values.message.trim()) errors.message = 'Write a short message so I know what this is about.';
+  if (!values.name.trim()) errors.name = t.errName;
+  if (!values.email.trim()) errors.email = t.errEmailMissing;
+  else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(values.email)) errors.email = t.errEmailInvalid;
+  if (!values.message.trim()) errors.message = t.errMessage;
   return errors;
 };
-
-const socialLinks = [
-  { key: 'github', href: profile.social.github, label: 'GitHub', icon: GithubLogo },
-  { key: 'linkedin', href: profile.social.linkedin, label: 'LinkedIn', icon: LinkedinLogo },
-  { key: 'email', href: `mailto:${profile.social.email}`, label: 'Email Rafael', icon: EnvelopeSimple }
-];
 
 const labelClass = 'text-[10px] font-medium uppercase tracking-[0.1em] text-muted';
 const inputClass = (invalid: boolean) =>
@@ -34,6 +29,13 @@ const inputClass = (invalid: boolean) =>
   }`;
 
 export const ContactSection = () => {
+  const { c, t } = useLang();
+  const { profile } = c;
+  const socialLinks = [
+    { key: 'github', href: profile.social.github, label: 'GitHub', icon: GithubLogo },
+    { key: 'linkedin', href: profile.social.linkedin, label: 'LinkedIn', icon: LinkedinLogo },
+    { key: 'email', href: `mailto:${profile.social.email}`, label: t.emailMe, icon: EnvelopeSimple }
+  ];
   const [values, setValues] = useState<Values>(emptyValues);
   const [errors, setErrors] = useState<Errors>({});
   const [sent, setSent] = useState(false);
@@ -46,7 +48,7 @@ export const ContactSection = () => {
 
   const onSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    const found = validate(values);
+    const found = validate(values, t);
     setErrors(found);
     const firstInvalid = (['name', 'email', 'message'] as FieldName[]).find(field => found[field]);
     if (firstInvalid) {
@@ -54,7 +56,7 @@ export const ContactSection = () => {
       return;
     }
     // No backend: hand the message to the visitor's own mail client.
-    const subject = encodeURIComponent(`Portfolio message from ${values.name.trim()}`);
+    const subject = encodeURIComponent(t.mailSubject(values.name.trim()));
     const body = encodeURIComponent(`${values.message.trim()}\n\n${values.name.trim()} (${values.email.trim()})`);
     window.location.href = `mailto:${profile.social.email}?subject=${subject}&body=${body}`;
     setSent(true);
@@ -70,7 +72,7 @@ export const ContactSection = () => {
     <section id="contact" className="band scroll-mt-20 border-t border-line px-5 py-28 lg:px-10 lg:py-40">
       <div className="mx-auto grid max-w-7xl gap-16 lg:grid-cols-[0.8fr_1.2fr]">
         <div>
-          <SectionHeading prefix=">" title="Get In Touch" />
+          <SectionHeading prefix=">" title={t.contactTitle} />
           <Reveal delay={0.06}>
             <p className="mt-8 max-w-md text-lg leading-8 text-muted">{profile.contactIntro}</p>
             <a href={`mailto:${profile.social.email}`} className="mt-5 inline-block font-mono text-sm text-fg link-underline">
@@ -96,16 +98,16 @@ export const ContactSection = () => {
           <Bezel coreClassName="p-6 sm:p-10">
             {sent ? (
               <div role="status">
-                <h3 className="text-2xl font-bold tracking-[-0.03em] text-fg">Your email app should be opening.</h3>
-                <p className="mt-3 max-w-[48ch] leading-relaxed text-muted">The message is ready to send. If nothing opened, write to {profile.social.email} directly.</p>
+                <h3 className="text-2xl font-bold tracking-[-0.03em] text-fg">{t.sentTitle}</h3>
+                <p className="mt-3 max-w-[48ch] leading-relaxed text-muted">{t.sentBody(profile.social.email)}</p>
                 <button type="button" onClick={reset} className="mt-8 text-sm text-accent link-underline">
-                  Write another message
+                  {t.writeAnother}
                 </button>
               </div>
             ) : (
               <form ref={formRef} noValidate onSubmit={onSubmit} className="grid gap-6">
                 <div className="grid gap-2">
-                  <label htmlFor="contact-name" className={labelClass}>Name</label>
+                  <label htmlFor="contact-name" className={labelClass}>{t.fieldName}</label>
                   <input
                     id="contact-name"
                     name="name"
@@ -115,13 +117,13 @@ export const ContactSection = () => {
                     aria-invalid={Boolean(errors.name)}
                     aria-describedby={errors.name ? 'contact-name-error' : undefined}
                     className={inputClass(Boolean(errors.name))}
-                    placeholder="Your name"
+                    placeholder={t.phName}
                   />
                   {errors.name && <p id="contact-name-error" className="text-sm text-danger">{errors.name}</p>}
                 </div>
 
                 <div className="grid gap-2">
-                  <label htmlFor="contact-email" className={labelClass}>Email</label>
+                  <label htmlFor="contact-email" className={labelClass}>{t.fieldEmail}</label>
                   <input
                     id="contact-email"
                     name="email"
@@ -138,7 +140,7 @@ export const ContactSection = () => {
                 </div>
 
                 <div className="grid gap-2">
-                  <label htmlFor="contact-message" className={labelClass}>Message</label>
+                  <label htmlFor="contact-message" className={labelClass}>{t.fieldMessage}</label>
                   <textarea
                     id="contact-message"
                     name="message"
@@ -148,14 +150,14 @@ export const ContactSection = () => {
                     aria-invalid={Boolean(errors.message)}
                     aria-describedby={errors.message ? 'contact-message-error' : undefined}
                     className={`${inputClass(Boolean(errors.message))} resize-none`}
-                    placeholder="Tell me a little about the opportunity..."
+                    placeholder={t.phMessage}
                   />
                   {errors.message && <p id="contact-message-error" className="text-sm text-danger">{errors.message}</p>}
                 </div>
 
                 <div>
                   <PillButton type="submit" icon={<PaperPlaneTilt weight="bold" />}>
-                    Send message
+                    {t.send}
                   </PillButton>
                 </div>
               </form>

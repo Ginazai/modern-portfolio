@@ -1,4 +1,5 @@
 import { useActiveSection } from '@/hooks/useActiveSection';
+import { useLang } from '@/context/lang-context';
 import { useDynamicTitle } from '@/hooks/useDynamicTitle';
 import { Navbar } from '@/components/portfolio/Navbar';
 import { ScrollProgress } from '@/components/portfolio/ScrollProgress';
@@ -13,6 +14,7 @@ import { ContactSection } from '@/components/portfolio/ContactSection';
 import { Footer } from '@/components/portfolio/Footer';
 
 export const RafaelPortfolio = () => {
+  const { t } = useLang();
   const activeId = useActiveSection();
   useDynamicTitle(activeId);
 
@@ -23,7 +25,7 @@ export const RafaelPortfolio = () => {
         className="fixed left-4 top-4 -translate-y-24 rounded-full bg-accent px-5 py-2.5 text-sm font-semibold text-accent-ink transition-transform focus:translate-y-0"
         style={{ zIndex: 'var(--z-progress)' }}
       >
-        Skip to content
+        {t.skip}
       </a>
       <div className="grain" aria-hidden="true" />
       <CursorGlow />
