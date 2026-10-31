@@ -10,7 +10,7 @@ export const es = {
       'Mi trabajo abarca aplicaciones full-stack, integraciones de API, ETL y reportería, y procesos asistidos por LLM. Valoro una arquitectura clara, mejoras medibles, entregas confiables y la colaboración cercana con quienes usan los sistemas.'
     ],
     contactIntro: '¿Tienes un puesto en mente o quieres hablar de un proyecto? Con gusto conversamos.',
-    resumeUrl: '/resume-es.pdf',
+    resumeUrl: `${import.meta.env.BASE_URL}resume-es.pdf`,
     resumeFilename: 'Rafael-Caballero-CV.pdf'
   },
 

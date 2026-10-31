@@ -16,6 +16,6 @@ export const profile = {
     linkedin: 'https://www.linkedin.com/in/rafaeld-caballero/',
     email: 'rafaeldc1300@gmail.com'
   },
-  resumeUrl: '/resume.pdf',
+  resumeUrl: `${import.meta.env.BASE_URL}resume.pdf`,
   resumeFilename: 'Rafael-Caballero-Resume.pdf'
 };
